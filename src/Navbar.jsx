@@ -2,7 +2,8 @@ import React from 'react'
 
 function Navbar() {
 
-    let cart = JSON.parse(localStorage.getItem('ProductsOrdered')) || []
+  let cart = JSON.parse(localStorage.getItem('ProductsOrdered')) || []
+  
   return (
     <div className='container' >
       <h1>

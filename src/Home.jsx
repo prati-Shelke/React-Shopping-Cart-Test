@@ -73,32 +73,28 @@ console.log(CartItems);
       <div className="container">
         <Navbar  />
         <div className="row">
-          {AllProducts.map((product) => (
-            <div className="col-md-3" key={product._id}>
-              <div className="bg-info">
-                <img
-                  src={`http://interviewapi.ngminds.com/${product.image}`}
-                  alt="img not found"
-                  width="100"
-                  height="200"
-                />
-                <br />
-                <p>{product.name}</p>
-                <p>
-                  <i className="fa fa-inr"></i>
-                  {product.price}
-                </p>
-                <a
-                href
-                  className="btn btn-warning"
-                  onClick={() => AddtoCart(product)}
-                >
-                  Add to Cart
-                </a>
+            {AllProducts.map((product) => (
+              <div className="col-md-3" key={product._id}>
+                <div className="bg-info">
+                  <img
+                    src={`http://interviewapi.ngminds.com/${product.image}`}
+                    alt="img not found"
+                    width="100"
+                    height="200"
+                  />
+                  <br />
+                  <p>{product.name}</p>
+                  <p>
+                    <i className="fa fa-inr"></i>
+                    {product.price}
+                  </p>
+                  <a href className="btn btn-warning" onClick={() => AddtoCart(product)}>
+                    Add to Cart
+                  </a>
+                </div>
+                <hr></hr>
               </div>
-              <hr></hr>
-            </div>
-          ))}
+            ))}
           
         </div>
       </div>
