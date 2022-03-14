@@ -8,7 +8,7 @@ function Demo()
 {
 
     const [AllProducts, setAllProducts] = useState([]);
-    let [CartItems,setCartItems] = useState(0)
+    // let [CartItems,setCartItems] = useState(0)
     let [ProductsOrdered,setProductOrdered] = useState(JSON.parse(localStorage.getItem('ProductsOrdered'))||[])
     let navigate = useNavigate()
     let [Sort,setSort] = useState('Default')
@@ -21,7 +21,7 @@ function Demo()
         let response = await axios.get("http://interviewapi.ngminds.com/api/getAllProducts");
         // console.log(response.data.products);
         setAllProducts(response.data.products);
-        setCartItems(JSON.parse(localStorage.getItem("cart"))||0)
+        // setCartItems(JSON.parse(localStorage.getItem("cart"))||0)
         // let temp = response.data.products.slice(0,ItemsPerPage)
         // console.log(temp);
         // setAllProducts(temp)
@@ -115,6 +115,18 @@ function Demo()
         setCurrentPage(pageNumber)
     }
 
+    const previousPage = () =>
+    {
+      setCurrentPage(currentPage-1) 
+      
+    }
+
+    const nextPage = () =>
+    {
+        
+        setCurrentPage(currentPage+1) 
+    }
+
     return (
                 <div className="container">
                     <Navbar  />
@@ -132,16 +144,18 @@ function Demo()
                         </div>
                     </div>
 
-                    <div className="row">
-                        {currentItems.map((product) => (
+                    <div className="row m-5">
+                        {currentItems.map((product,index) => (
                         <div className="col-md-3" key={product._id}>
-                            <div className="bg-info">
+                            <div className={`${index %4===0 && 'bg-info'} ${index%4===1 && 'bg-success'} ${index%4===2 && 'bg-warning'} ${index%4===3 && 'bg-danger'}`}>
+                            <div style={{paddingRight:'180px'}}>
                             <img
                                 src={`http://interviewapi.ngminds.com/${product.image}`}
                                 alt="img not found"
                                 width="100"
                                 height="200"
                             />
+                            </div>
                             <p>{product.name}</p>
                             <p>
                                 <i className="fa fa-inr"></i>
@@ -164,6 +178,8 @@ function Demo()
                                    totalItems={AllProducts.length}
                                    paginate = {paginate}
                                    currentPage = {currentPage}
+                                   previousPage = {previousPage}
+                                   nextPage = {nextPage}
                                 />
                                 </div>
                             </div>

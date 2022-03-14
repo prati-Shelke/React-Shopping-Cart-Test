@@ -22,9 +22,8 @@ function PlaceOrder() {
   
 
   
-  const confirmOrder = async() => {
-
-
+  const confirmOrder = async() => 
+  {
     let Order = {
       personName : Name,
       deliveryAddress : Addr,
