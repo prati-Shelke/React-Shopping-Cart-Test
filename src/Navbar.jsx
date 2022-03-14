@@ -7,6 +7,7 @@ function Navbar() {
   return (
     <div className='container' >
       <h1>
+        
         <a href="/home">My Ecommerce Site</a>
         <span className="pull-right">
           <a href="/cart">Cart ({cart.length})</a>

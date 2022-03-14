@@ -13,25 +13,32 @@ function Demo()
     let navigate = useNavigate()
     let [Sort,setSort] = useState('Default')
     let [ItemsPerPage,setItemsPerPage] = useState(5)
+    const [currentPage, setCurrentPage] = useState(1);
+   
 
     const fetchData = async() =>
     {
         let response = await axios.get("http://interviewapi.ngminds.com/api/getAllProducts");
-        console.log(response.data.products);
-        // setAllProducts(response.data.products);
+        // console.log(response.data.products);
+        setAllProducts(response.data.products);
         setCartItems(JSON.parse(localStorage.getItem("cart"))||0)
-
-        let temp = response.data.products.slice(0,ItemsPerPage)
-        console.log(temp);
-        setAllProducts(temp)
+        // let temp = response.data.products.slice(0,ItemsPerPage)
+        // console.log(temp);
+        // setAllProducts(temp)
     }
+
+     // Get current posts
+    const indexOfLastItem = currentPage * ItemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - ItemsPerPage;
+    const currentItems = AllProducts.slice(indexOfFirstItem, indexOfLastItem);
 
     useEffect(() => 
     {
         fetchData()
     }, [])
-    console.log(Sort)
+   
 
+    //-------------------------------------Add to cart function---------------------
     const AddtoCart = (product) =>
     {
     
@@ -76,8 +83,8 @@ function Demo()
       navigate("/cart", { state: product });
     }
 
-    console.log(CartItems);
 
+    //------------------------for sorting according to price of product------------
     const sortProduct = (value) =>
     {
         setSort(value)
@@ -102,20 +109,18 @@ function Demo()
 
     }
 
-    const quantity = (value) =>
+    //-----------------------Change page---------------------------------------
+    const paginate = pageNumber => 
     {
-        setItemsPerPage(value)
-        let temp = AllProducts.slice(0,5)
-        console.log(temp);
-        setAllProducts(temp)
+        setCurrentPage(pageNumber)
     }
-    
+
     return (
                 <div className="container">
                     <Navbar  />
 
                     <div className="row">
-                        <div className="col-sm-12">
+                        <div className="col-sm-12 text-left">
                             <div style={{margin:'25px 0px'}}>
                                 <label className="control-label">Sort by:</label>
                                 <select value={Sort} onChange={(e)=>sortProduct(e.target.value)}>
@@ -128,7 +133,7 @@ function Demo()
                     </div>
 
                     <div className="row">
-                        {AllProducts.map((product) => (
+                        {currentItems.map((product) => (
                         <div className="col-md-3" key={product._id}>
                             <div className="bg-info">
                             <img
@@ -137,7 +142,6 @@ function Demo()
                                 width="100"
                                 height="200"
                             />
-                            console.log(product);
                             <p>{product.name}</p>
                             <p>
                                 <i className="fa fa-inr"></i>
@@ -155,19 +159,18 @@ function Demo()
                     <div className='row'>
                             <div className="col-sm-6 text-left">
                                 <div style={{margin:'25px 0px'}}>
-                                {/* <Pagination
-                                    data={AllProducts}
-                                    // RenderComponent={Demo}
-                                    title="Posts"
-                                    pageLimit={5}
-                                    dataLimit={10}
-                                /> */}
+                                <Pagination
+                                   ItemsPerPage={ItemsPerPage}
+                                   totalItems={AllProducts.length}
+                                   paginate = {paginate}
+                                   currentPage = {currentPage}
+                                />
                                 </div>
                             </div>
                             <div className="col-sm-6 text-right">
                                 <div style={{margin:'25px 0px'}}>
                                     <label className="control-label">Items Per Page : </label>
-                                    <select value={ItemsPerPage} onChange={(e)=>quantity(e.target.value)}>
+                                    <select value={ItemsPerPage} onChange={(e)=>setItemsPerPage(e.target.value)}>
                                         <option value="5">5</option>
                                         <option value="10">10</option>
                                         <option value="25">25</option>
