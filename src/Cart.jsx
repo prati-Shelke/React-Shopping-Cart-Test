@@ -7,14 +7,18 @@ toast.configure()
 
 function Cart()
 {
-    // let product = useLocation().state
-    // let [Price,setPrice] = useState()
-    // let [Quantity,setQuantity] = useState()
-    // let [TotalAmount,setTotalAmount] = useState()
+  
     let [ProductsOrdered,setProductsOrdered] = useState(JSON.parse(localStorage.getItem('ProductsOrdered'))||[])
     let navigate = useNavigate()
+    let totalAmountPayable = 0
 
-
+    
+        ProductsOrdered.map(product=>
+        {
+            totalAmountPayable += parseInt(product.total)
+        })  
+    
+   
     const incrementQty = (e,ind) =>
     {
       e.preventDefault()
@@ -98,7 +102,7 @@ function Cart()
                       <input type="text" name="quantity" style={{width:'150px'}} className="qty" size="5px" value={product.qty} onChange={()=>''}/>
                       <button ng-click="increment()" onClick={(e)=>incrementQty(e,ind)}>+</button>
                   </div>
-
+                  
                   <div className="col-md-3">
                     <a className="btn btn-warning" onClick={()=>removeItem(ind)}>
                       remove
@@ -107,15 +111,16 @@ function Cart()
                 </div>
               </form>
               <hr />
-              <div className="row">
-                <div className="col-md-9">
-                  <label className="pull-right">Amount Payable</label>
-                </div>
-                <div className="col-md-3 ">{product.total}</div>
-              </div>
+              
             </div>
             ): <label style={{color:'red',fontSize:'16px',margin:'50px'}}> Your Cart is empty</label>}
             
+            <div className="row">
+                <div className="col-md-9">
+                  <label className="pull-right">Amount Payable</label>
+                </div>
+                <div className="col-md-3 ">{totalAmountPayable}</div>
+            </div>
             <div className="panel-footer">
               <button className="btn btn-success" style={{}} onClick={countinueShopping}>Continue Shopping</button>
               <button className="pull-right btn btn-danger" onClick={placeOrder}>Place Order</button>
