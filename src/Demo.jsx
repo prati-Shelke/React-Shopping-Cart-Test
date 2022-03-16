@@ -22,10 +22,7 @@ function Demo()
         let response = await axios.get("http://interviewapi.ngminds.com/api/getAllProducts");
         // console.log(response.data.products);
         setAllProducts(response.data.products);
-        // setCartItems(JSON.parse(localStorage.getItem("cart"))||0)
-        // let temp = response.data.products.slice(0,ItemsPerPage)
-        // console.log(temp);
-        // setAllProducts(temp)
+        
     }
 
      // Get current posts
