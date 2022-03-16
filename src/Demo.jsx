@@ -14,6 +14,7 @@ function Demo()
     let [Sort,setSort] = useState('Default')
     let [ItemsPerPage,setItemsPerPage] = useState(5)
     const [currentPage, setCurrentPage] = useState(1);
+    let [currentItems,setcurrentItems] = useState([])
    
 
     const fetchData = async() =>
@@ -30,14 +31,18 @@ function Demo()
      // Get current posts
     const indexOfLastItem = currentPage * ItemsPerPage;
     const indexOfFirstItem = indexOfLastItem - ItemsPerPage;
-    const currentItems = AllProducts.slice(indexOfFirstItem, indexOfLastItem);
+    currentItems = AllProducts.slice(indexOfFirstItem, indexOfLastItem);
 
     useEffect(() => 
     {
         fetchData()
-        setCurrentPage(1)
-    }, [ItemsPerPage])
+        
+    }, [])
    
+    useEffect(()=>
+    {
+        setCurrentPage(1)
+    },[ItemsPerPage])
 
     //-------------------------------------Add to cart function---------------------
     const AddtoCart = (product) =>
@@ -89,16 +94,15 @@ function Demo()
     const sortProduct = (value) =>
     {
         setSort(value)
-
         if(value==='Low to High')
         {
-                AllProducts.sort(function(a,b){
+            AllProducts = AllProducts.sort(function(a,b){
                     return a.price - b.price
                 })   
         }
         else if(value === 'High to Low')
         {
-            AllProducts.sort(function(a,b){
+            AllProducts = AllProducts.sort(function(a,b){
                 return b.price - a.price
             }) 
         }
@@ -106,9 +110,9 @@ function Demo()
         {
             fetchData()
         }
-        console.log(AllProducts);
-
+        // setAllProducts(AllProducts)
     }
+    console.log(AllProducts);
 
     //-----------------------Change page---------------------------------------
     const paginate = pageNumber => 
