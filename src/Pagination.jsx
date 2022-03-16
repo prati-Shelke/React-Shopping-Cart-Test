@@ -4,11 +4,13 @@ const Pagination = ({ ItemsPerPage, totalItems, paginate,currentPage ,previousPa
   const pageNumbers = [];
   let Number = currentPage
   
+
   for (let i = 1; i <= Math.ceil(totalItems / ItemsPerPage); i++) 
   {
     pageNumbers.push(i);
+    
   }
-  console.log(Number!=pageNumbers.length);
+  
  
 
   return (

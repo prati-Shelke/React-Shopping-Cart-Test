@@ -35,7 +35,8 @@ function Demo()
     useEffect(() => 
     {
         fetchData()
-    }, [])
+        setCurrentPage(1)
+    }, [ItemsPerPage])
    
 
     //-------------------------------------Add to cart function---------------------
